@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Background clean */
+body {
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Gradiente suave em tons claros */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    margin: 0;
+}
+
+/* Header styling */
+header h1 {
+    margin-bottom: 30px;
+    text-align: center;
+    color: #333;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+/* Main container styling */
+main {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); /* Suave sombra para destacar o conteúdo */
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+/* Seals container and seals styling */
+.selos-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.selo {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    font-size: 24px;
+}
+
+.selo.filled {
+    background-color: #28a745;
+    color: white;
+}
+
+.selo.empty {
+    background-color: #f4f4f4;
+    color: #ccc;
+}
+
+
+h2 {
+    margin-bottom: 15px; /* Ajuste opcional para o h2 */
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+.login-container, main {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.selos-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.selo {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    font-size: 24px;
+}
+
+.selo.filled {
+    background-color: #28a745;
+    color: white;
+}
+
+.selo.empty {
+    background-color: #f4f4f4;
+    color: #ccc;
+}
+
+@media (max-width: 768px) {
+    body {
+        height: auto;
+        padding: 20px;
+    }
+
+    .login-container, main {
+        width: 100%;
+    }
+}

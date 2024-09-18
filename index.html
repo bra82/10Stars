@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Fidelidade - Login</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        // Função de validação do login
+        function validarLogin(event) {
+            event.preventDefault(); // Evita o envio padrão do formulário
+            var usuario = document.getElementById("email").value;
+            var senha = document.getElementById("password").value;
+            
+            // Verifica se as credenciais estão corretas
+            if (usuario === "teste" && senha === "teste") {
+                // Redireciona para a página do cliente
+                window.location.href = "cliente.html";
+            } else {
+                // Exibe mensagem de erro
+                alert("Usuário ou senha incorretos. Tente 'teste' para ambos.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Login</h1>
+        <form onsubmit="validarLogin(event)">
+            <label for="email">Usuário:</label>
+            <input type="text" id="email" name="email" required>
+            
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Entrar</button>
+        </form>
+        <p>Comerciante? <a href="comerciante.html">Acesse aqui</a></p>
+    </div>
+</body>
+</html>
