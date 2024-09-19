@@ -4,15 +4,15 @@
     box-sizing: border-box;
 }
 
-/* Background clean */
+/* Layout geral */
 body {
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2); /* Gradiente suave em tons claros */
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    flex-direction: column;
     margin: 0;
+    flex-direction: column;
 }
 
 /* Header styling */
@@ -24,22 +24,24 @@ header h1 {
     font-weight: bold;
 }
 
-/* Main container styling */
+/* Container principal */
 main {
-    background-color: #fff;
+    background-color: #f0f0f5; /* Fundo suave */
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); /* Suave sombra para destacar o conteúdo */
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
     width: 100%;
     max-width: 500px;
     text-align: center;
+    position: relative;
 }
 
-/* Seals container and seals styling */
+/* Estilo para exibir selos em duas linhas */
 .selos-container {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
+    flex-wrap: wrap; /* Permitir que os selos quebrem para a próxima linha */
+    justify-content: center;
+    gap: 10px; /* Espaçamento entre os selos */
 }
 
 .selo {
@@ -51,6 +53,7 @@ main {
     border-radius: 50%;
     border: 2px solid #ccc;
     font-size: 24px;
+    margin: 5px;
 }
 
 .selo.filled {
@@ -63,6 +66,12 @@ main {
     color: #ccc;
 }
 
+/* Destaque na quantidade de selos restantes */
+#selosRestantes {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #28a745; /* Destaque apenas no número */
+}
 
 h2 {
     margin-bottom: 15px; /* Ajuste opcional para o h2 */
@@ -147,4 +156,114 @@ button:hover {
     .login-container, main {
         width: 100%;
     }
+}
+
+@media (max-width: 768px) {
+    .selos-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 colunas para mobile */
+        gap: 10px;
+        justify-items: center; /* Centraliza os selos dentro das colunas */
+    }
+
+    .selo {
+        width: 50px;  /* Mantendo o tamanho dos selos */
+        height: 50px;
+    }
+}
+
+/* Animação ao adicionar selos */
+@keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.selo.filled {
+    background-color: #28a745;
+    color: white;
+    animation: pop 0.3s ease;
+}
+
+/* Estilo das setas de navegação */
+.navegacao-comerciantes {
+    position: relative;
+    width: 100%;
+}
+
+.navegacao-comerciantes button {
+    background-color: #007bff; /* Cor azul para diferenciar das selos */
+    border: none;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 50%; /* Alinha ao centro verticalmente */
+    transform: translateY(-50%); /* Centraliza verticalmente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navegacao-comerciantes button.left {
+    left: -60px; /* Posiciona a seta à esquerda */
+}
+
+.navegacao-comerciantes button.right {
+    right: -60px; /* Posiciona a seta à direita */
+}
+
+.navegacao-comerciantes button:hover {
+    background-color: #0056b3; /* Cor mais escura ao passar o mouse */
+}
+
+/* Estilo do título do comerciante */
+#comercianteTitulo {
+    font-size: 2rem;
+    color: #007bff; /* Destaque em azul */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchmove', handleTouchMove, false);
+
+var xDown = null;
+
+function handleTouchStart(evt) {
+    xDown = evt.touches[0].clientX;
+}
+
+function handleTouchMove(evt) {
+    if (!xDown) return;
+
+    var xUp = evt.touches[0].clientX;
+    var xDiff = xDown - xUp;
+
+    if (xDiff > 0) {
+        proximoComerciante();
+    } else {
+        anteriorComerciante();
+    }
+
+    xDown = null;
+}
+
+/* Estilos para a barra de progresso */
+.progress-bar {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.progress-fill {
+    height: 20px;
+    background-color: #28a745;
+    width: 0;
+    border-radius: 10px;
+    transition: width 0.3s ease;
 }

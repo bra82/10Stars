@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizar LocalStorage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            max-width: 600px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Conteúdo do LocalStorage</h1>
+    <button onclick="visualizarLocalStorage()">Exibir Conteúdo</button>
+    
+    <pre id="output"></pre>
+
+    <script>
+        // Função para visualizar o conteúdo do localStorage
+        function visualizarLocalStorage() {
+            var output = document.getElementById('output');
+            output.innerHTML = ''; // Limpa o conteúdo anterior
+
+            // Log no console para depuração
+            console.log('Tentando acessar o localStorage...');
+
+            // Verifica se há algo no localStorage
+            if (localStorage.length === 0) {
+                output.innerHTML = 'O localStorage está vazio.';
+                console.log('O localStorage está vazio.');
+                return;
+            }
+
+            // Percorre todas as chaves e valores do localStorage
+            for (var i = 0; i < localStorage.length; i++) {
+                var chave = localStorage.key(i);
+                var valor = localStorage.getItem(chave);
+
+                // Exibe a chave e o valor
+                output.innerHTML += `Chave: ${chave}\nValor: ${valor}\n\n`;
+                console.log(`Chave: ${chave}, Valor: ${valor}`); // Log para depuração
+            }
+        }
+
+        // Função de teste para armazenar alguns dados no localStorage
+        function adicionarDadosTeste() {
+            localStorage.setItem('teste1', 'valorTeste1');
+            localStorage.setItem('teste2', 'valorTeste2');
+            console.log('Dados de teste foram armazenados no localStorage.');
+        }
+
+        // Adiciona dados de teste ao carregar a página (remover se não for necessário)
+        document.addEventListener('DOMContentLoaded', adicionarDadosTeste);
+    </script>
+</body>
+</html>

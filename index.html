@@ -12,16 +12,16 @@
             var usuario = document.getElementById("email").value;
             var senha = document.getElementById("password").value;
             
-            // Verifica se as credenciais estão corretas
-            if (usuario === "teste" && senha === "teste") {
+            // Atualizar as credenciais corretas para o novo e-mail e senha
+            if (usuario === "teste@teste.com.br" && senha === "teste") {
                 // Redireciona para a página do cliente
                 window.location.href = "cliente.html";
             } else {
                 // Exibe mensagem de erro
-                alert("Usuário ou senha incorretos. Tente 'teste' para ambos.");
+                alert("Usuário ou senha incorretos. Tente 'teste@teste.com.br' e 'teste' como senha.");
             }
         }
-    </script>
+    </script>    
 </head>
 <body>
     <div class="login-container">

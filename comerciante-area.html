@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Comerciante</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        // Função para emitir selos para o cliente
+        function emitirSelo(event) {
+            event.preventDefault();
+
+            // Obtém o e-mail do comerciante a partir da URL (usado como parâmetro na URL após o login)
+            var params = new URLSearchParams(window.location.search);
+            var comercianteEmail = params.get("comerciante");
+
+            if (!comercianteEmail) {
+                alert("Erro: Comerciante não identificado.");
+                return;
+            }
+
+            // E-mail do cliente fornecido pelo comerciante
+            var emailCliente = document.getElementById("cliente").value;
+
+            // Combina comerciante e cliente para formar a chave única
+            var chave = comercianteEmail + "_" + emailCliente;
+
+            // Recuperar o número de selos do cliente para este comerciante
+            var selos = localStorage.getItem(chave) || 0;
+            selos = parseInt(selos);
+
+            if (selos < 10) {
+                selos++;
+                localStorage.setItem(chave, selos); // Salvar o número de selos para este comerciante e cliente
+                alert("Selo emitido com sucesso! O cliente agora tem " + selos + " selos para " + comercianteEmail);
+            } else {
+                alert("O cliente já completou os 10 selos.");
+            }
+        }
+
+        // Exibir o nome do comerciante logado na página
+        function exibirComerciante() {
+            var params = new URLSearchParams(window.location.search);
+            var comercianteEmail = params.get("comerciante");
+            document.getElementById("comercianteNome").innerText = comercianteEmail || "Comerciante";
+        }
+
+        document.addEventListener("DOMContentLoaded", exibirComerciante);
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Painel do Comerciante: <span id="comercianteNome"></span></h1>
+    </header>
+
+    <main>
+        <h2>Emitir Selo para Cliente</h2>
+        <form onsubmit="emitirSelo(event)">
+            <label for="cliente">E-mail do Cliente:</label>
+            <input type="email" id="cliente" name="cliente" required>
+            <button type="submit">Emitir Selo</button>
+        </form>
+    </main>
+</body>
+</html>

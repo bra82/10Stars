@@ -1,31 +1,127 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+<head>    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel do Cliente</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        // Definir os comerciantes com seus nomes e e-mails
+        var comerciantes = [
+            { nome: "Padaria", email: "padaria@teste.com.br" },
+            { nome: "Mercado", email: "mercado@teste.com.br" },
+            { nome: "Pizzaria", email: "pizza@teste.com.br" }
+        ];
+
+        // Índice atual do comerciante selecionado (inicia com o primeiro comerciante)
+        var currentComercianteIndex = 0;
+
+        // E-mail do cliente, recuperado do localStorage ou configurado como padrão
+        var emailCliente = localStorage.getItem('clienteEmail') || "teste@teste.com.br"; // Use o e-mail correto do cliente logado
+
+        // Função para obter os selos do cliente para o comerciante atual
+        function obterSelos(comercianteEmail, clienteEmail) {
+            try {
+                // Combina o e-mail do comerciante e cliente para formar a chave no localStorage
+                var chave = comercianteEmail + "_" + clienteEmail;
+                var selos = localStorage.getItem(chave);
+
+                if (selos === null) {
+                    return 0; // Se não houver selos, retorna 0
+                }
+                return parseInt(selos); // Converte os selos para número
+            } catch (e) {
+                console.error('Erro ao obter selos do localStorage:', e);
+                return 0;
+            }
+        }
+
+        // Atualiza a barra de progresso com base nos selos
+        function atualizarBarraDeProgresso(selos) {
+        var progresso = (selos / 10) * 100; // Percentual de progresso
+        document.getElementById("progressFill").style.width = progresso + "%";
+        }      
+
+        // Função para carregar e exibir os selos de um comerciante específico
+        function carregarSelos() {
+            // Obter o e-mail e nome do comerciante atual
+            var comercianteAtual = comerciantes[currentComercianteIndex];
+            var comercianteEmail = comercianteAtual.email;
+            var comercianteNome = comercianteAtual.nome;
+
+            // Obter os selos do cliente para o comerciante atual
+            var selos = obterSelos(comercianteEmail, emailCliente);
+
+            // Atualiza o título do comerciante acima dos cartões
+            document.getElementById("comercianteTitulo").innerText = comercianteNome;
+
+            // Atualiza a interface com o número de selos recuperados
+            var selosContainer = document.querySelector(".selos-container");
+            selosContainer.innerHTML = ""; // Limpa o container de selos
+
+            // Preenche os selos com base no número recuperado
+            for (var i = 0; i < 10; i++) {
+                var selo = document.createElement("div");
+                selo.classList.add("selo");
+                if (i < selos) {
+                    selo.classList.add("filled");
+                    selo.innerHTML = "🏅"; // Selo preenchido
+                } else {
+                    selo.classList.add("empty");
+                    selo.innerHTML = "⚪"; // Selo vazio
+                }
+                selosContainer.appendChild(selo);
+            }
+
+            // Atualiza a quantidade de selos restantes
+            document.getElementById("selosRestantes").innerText = 10 - selos;
+
+            // Chame essa função sempre que os selos forem carregados
+            atualizarBarraDeProgresso(selos);        
+        }
+
+        // Função para ir ao comerciante anterior
+        function anteriorComerciante() {
+            currentComercianteIndex = (currentComercianteIndex - 1 + comerciantes.length) % comerciantes.length;
+            carregarSelos(); // Recarregar os selos do novo comerciante selecionado
+        }
+
+        // Função para ir ao próximo comerciante
+        function proximoComerciante() {
+            currentComercianteIndex = (currentComercianteIndex + 1) % comerciantes.length;
+            carregarSelos(); // Recarregar os selos do novo comerciante selecionado
+        }
+
+        // Função de inicialização: Carregar os selos ao carregar a página
+        document.addEventListener("DOMContentLoaded", function() {
+            carregarSelos(); // Carrega os selos do comerciante atual ao carregar a página
+        });
+    </script>
 </head>
 <body>
     <header>
-        <h1>Bem-vindo, Cliente!</h1>
-    </header>
+        <!-- Exibe o nome do comerciante atual acima do cartão de selos -->
+        <h1 id="comercianteTitulo" style="font-size: 2.5rem; color: #0056b3; text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">Comércio</h1>
+    </header>    
     <main>
-        <h2>Seus Selos</h2>
+        <h2>Faltam <strong id="selosRestantes"></strong> selos!</h2>
+
+        <!-- Container de Selos -->
         <div class="selos-container">
-            <!-- Simulação de selos preenchidos e vazios -->
-            <div class="selo filled">✔</div>
-            <div class="selo filled">✔</div>
-            <div class="selo filled">✔</div>
-            <div class="selo empty">✖</div>
-            <div class="selo empty">✖</div>
-            <div class="selo empty">✖</div>
-            <div class="selo empty">✖</div>
-            <div class="selo empty">✖</div>
-            <div class="selo empty">✖</div>
-            <div class="selo empty">✖</div>
+            <!-- Selos serão carregados dinamicamente aqui -->
         </div>
-        <p>Faltam <strong>7</strong> selos para você ganhar um benefício!</p>
+
+        <!-- Navegação por setas -->
+        <div class="navegacao-comerciantes">     
+        <button class="left" onclick="anteriorComerciante()" aria-label="Comerciante anterior">←</button>
+        <button class="right" onclick="proximoComerciante()" aria-label="Próximo comerciante">→</button>
+        </div>
+
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
     </main>
 </body>
 </html>
